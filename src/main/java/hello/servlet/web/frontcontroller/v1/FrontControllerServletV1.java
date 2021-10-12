@@ -15,7 +15,7 @@ import java.util.Map;
 
 // Front Controller는 수문장 역할을 한다.
 
-@WebServlet(name= "frontControllerServletV1", urlPatterns = "/front-controller/v1/*")
+@WebServlet(name = "frontControllerServletV1", urlPatterns = "/front-controller/v1/*") // * 은 모든 것을 포함
 public class FrontControllerServletV1 extends HttpServlet {
 
     private Map<String, ControllerV1> controllerMap = new HashMap<>();
@@ -29,5 +29,16 @@ public class FrontControllerServletV1 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("FrontControllerServletV1.service");
+
+        String requestURI = request.getRequestURI();
+
+        ControllerV1 controller = controllerMap.get(requestURI);
+
+        if (controller == null) {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        controller.process(request, response); // 잘 호출이 됐으면 이 코드 실행
     }
 }
