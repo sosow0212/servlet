@@ -44,7 +44,6 @@ public class FrontControllerServletV3 extends HttpServlet {
         ModelView mv = controller.process(paramMap);
 
         String viewName = mv.getViewName(); // 논리이름 new-form
-
         MyView view = new MyView("/WEB-INF/views/" + viewName + ".jsp");
 
         view.render(mv.getModel(), request, response);
